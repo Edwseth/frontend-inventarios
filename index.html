@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inventario - EdwTech Solutions</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Login Page -->
+<div class="container" id="login-container">
+  <div class="login-box">
+    <h1>EdwTech Solutions</h1>
+    <input type="text" id="username" placeholder="Usuario o correo electrónico">
+    <input type="password" id="password" placeholder="Contraseña">
+    <button onclick="handleLogin()">Iniciar Sesión</button>
+    <p id="error-message" style="color: red; display: none;">Usuario o contraseña incorrectos</p>
+  </div>
+</div>
+
+<!-- Dashboard -->
+<div class="dashboard" id="dashboard-container" style="display: none;">
+  <div class="sidebar">
+    <h2>Menú</h2>
+    <ul>
+      <li id="menu-inicio">Inicio</li>
+      <li id="menu-productos">Gestión de Productos</li>
+      <li id="menu-entradas">Entradas y Salidas</li>
+      <li id="menu-reportes">Reportes</li>
+      <li id="menu-alertas">Alertas</li>
+    </ul>
+    <button id="logout-button">Cerrar Sesión</button>
+  </div>
+  <div class="content">
+    <h1>Dashboard de Inventarios</h1>
+    <div class="card" id="critical-products">
+      <h2>Productos Críticos</h2>
+      <p id="critical-products-data">Cargando...</p>
+    </div>
+    <div class="card" id="expiring-products">
+      <h2>Próximos a Vencer</h2>
+      <p id="expiring-products-data">Cargando...</p>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
