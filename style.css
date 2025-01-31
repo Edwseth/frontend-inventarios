@@ -130,3 +130,112 @@ transition: background 0.3s, transform 0.2s;
   background-color: #c0392b;
   transform: scale(1.05);
 }
+
+#productos-form {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  margin: auto;
+}
+
+#productos-form label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+#productos-form input,
+#productos-form textarea {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+#productos-form button {
+  margin-top: 15px;
+  background-color: #28a745;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+}
+
+#productos-form button:hover {
+  background-color: #218838;
+}
+
+#producto-mensaje {
+  text-align: center;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+/* Botón "Ver Productos" */
+#ver-productos-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.3s, transform 0.2s;
+}
+
+#ver-productos-btn:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+/* Diseño del formulario */
+#productos-form {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  margin: auto;
+}
+
+/* Estilos para agrupar campos del formulario */
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* Estilo del botón de agregar productos */
+#crear-producto-form button {
+  margin-top: 15px;
+  background-color: #28a745;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+}
+
+#crear-producto-form button:hover {
+  background-color: #218838;
+}
+
+

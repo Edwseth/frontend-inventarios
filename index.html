@@ -14,33 +14,58 @@
     <h1>EdwTech Solutions</h1>
     <input type="text" id="username" placeholder="Usuario o correo electrónico">
     <input type="password" id="password" placeholder="Contraseña">
-    <button onclick="handleLogin()">Iniciar Sesión</button>
+    <button type="button" onclick="handleLogin()">Iniciar Sesión</button>
     <p id="error-message" style="color: red; display: none;">Usuario o contraseña incorrectos</p>
   </div>
 </div>
 
 <!-- Dashboard -->
 <div class="dashboard" id="dashboard-container" style="display: none;">
-  <div class="sidebar">
+  <!-- Menú hamburguesa para móviles -->
+  <button id="menu-toggle" type="button">&#9776;</button>
+
+  <nav class="sidebar" id="sidebar">
     <h2>Menú</h2>
     <ul>
-      <li id="menu-inicio">Inicio</li>
-      <li id="menu-productos">Gestión de Productos</li>
-      <li id="menu-entradas">Entradas y Salidas</li>
-      <li id="menu-reportes">Reportes</li>
-      <li id="menu-alertas">Alertas</li>
+      <li id="menu-inicio" role="button">Inicio</li>
+      <li id="menu-productos" role="button">Gestión de Productos</li>
+      <li id="menu-entradas" role="button">Entradas y Salidas</li>
+      <li id="menu-reportes" role="button">Reportes</li>
+      <li id="menu-alertas" role="button">Alertas</li>
     </ul>
-    <button id="logout-button">Cerrar Sesión</button>
-  </div>
+    <button id="logout-button" type="button">Cerrar Sesión</button>
+  </nav>
+
   <div class="content">
     <h1>Dashboard de Inventarios</h1>
-    <div class="card" id="critical-products">
+    <div class="card">
       <h2>Productos Críticos</h2>
       <p id="critical-products-data">Cargando...</p>
     </div>
-    <div class="card" id="expiring-products">
+    <div class="card">
       <h2>Próximos a Vencer</h2>
       <p id="expiring-products-data">Cargando...</p>
+    </div>
+
+    <div id="productos-form" style="display: none;">
+      <h2>Crear Producto</h2>
+      <form id="crear-producto-form">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" required>
+
+        <label for="descripcion">Descripción:</label>
+        <textarea id="descripcion" required></textarea>
+
+        <label for="sku">SKU:</label>
+        <input type="text" id="sku" required>
+
+        <label for="stock">Stock Inicial:</label>
+        <input type="number" id="stock" required>
+
+        <button type="submit">Agregar Producto</button>
+      </form>
+
+      <p id="producto-mensaje" style="color: green; display: none;">Producto creado exitosamente</p>
     </div>
   </div>
 </div>
@@ -48,3 +73,4 @@
 <script src="script.js"></script>
 </body>
 </html>
+
