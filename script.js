@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Manejo de clics en el menú lateral
-  const menuItems = ["inicio", "productos", "entradas", "reportes", "alertas"];
+  const menuItems = ["inicio", "productos", "movimientos", "reportes", "alertas"];
   menuItems.forEach(menu => {
       document.getElementById(`menu-${menu}`).addEventListener("click", () => showSection(menu));
   });
@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-// Función para cambiar de sección
+// Modificar la función showSection para agregar los botones
 function showSection(section) {
     console.log("Cambiando a sección:", section);
   
@@ -75,93 +75,96 @@ function showSection(section) {
     content.innerHTML = ""; // Limpiar contenido antes de cambiar
   
     switch (section) {
-        case "inicio":
-            content.innerHTML = `
-                <h1>Dashboard de Inventarios</h1>
-                <div class="card">
-                    <h2>Productos Críticos</h2>
-                    <p id="critical-products-data">Cargando...</p>
-                </div>
-                <div class="card">
-                    <h2>Próximos a Vencer</h2>
-                    <p id="expiring-products-data">Cargando...</p>
-                </div>
-            `;
-            const token = localStorage.getItem("token");
-            if (token) loadDashboardData(token);
-            break;
-
-        case "productos":
-            content.innerHTML = `
-                <h1>Gestión de Productos</h1>
-                <button id="ver-productos-btn" onclick="listarProductos()">Ver Productos</button>
-                <div id="productos-lista"></div>
-
-                <div id="productos-form">
-                    <h2>Crear Producto</h2>
-                    <form id="crear-producto-form">
-                        <div class="form-group">
-                            <label for="nombre">Nombre:</label>
-                            <input type="text" id="nombre" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="descripcion">Descripción:</label>
-                            <textarea id="descripcion" required></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="sku">SKU:</label>
-                            <input type="text" id="sku" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="stock">Stock Inicial:</label>
-                            <input type="number" id="stock" required>
-                        </div>
-
-                        <button type="submit">Agregar Producto</button>
-                    </form>
-
-                    <p id="producto-mensaje" style="color: green; display: none;">Producto creado exitosamente</p>
-                </div>
-            `;
-
-            document.getElementById("crear-producto-form").addEventListener("submit", async function(event) {
-                event.preventDefault();
-                await crearProducto();
-            });
-
-            break;
-
-        case "entradas":
-            content.innerHTML = `
-                <h1>Entradas y Salidas</h1>
-                <p>Gestión de movimientos de inventario.</p>
-            `;
-            break;
-
-        case "reportes":
-            content.innerHTML = `
-                <h1>Reportes</h1>
-                <p>Aquí puedes generar reportes sobre inventario y ventas.</p>
-            `;
-            break;
-
-        case "alertas":
-            content.innerHTML = `
-                <h1>Alertas</h1>
-                <p>Visualiza alertas de inventario y vencimientos.</p>
-            `;
-            break;
-
-        default:
-            content.innerHTML = "<h1>Página no encontrada</h1>";
+      case "inicio":
+        content.innerHTML = `
+          <h1>Dashboard de Inventarios</h1>
+          <div class="card">
+            <h2>Productos Críticos</h2>
+            <p id="critical-products-data">Cargando...</p>
+          </div>
+          <div class="card">
+            <h2>Próximos a Vencer</h2>
+            <p id="expiring-products-data">Cargando...</p>
+          </div>
+        `;
+        const token = localStorage.getItem("token");
+        if (token) loadDashboardData(token);
+        break;
+  
+      case "productos":
+        content.innerHTML = `
+          <h1>Gestión de Productos</h1>
+          <button id="ver-productos-btn" onclick="toggleListaProductos()">Ver Productos</button>
+          <button id="crear-producto-btn" onclick="toggleFormularioProducto()">Crear Producto</button>
+          <div id="productos-lista" style="display: none;"></div>
+  
+          <div id="productos-form" style="display: none;">
+            <h2>Crear Producto</h2>
+            <form id="crear-producto-form">
+              <div class="form-group">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" required>
+              </div>
+  
+              <div class="form-group">
+                <label for="descripcion">Descripción:</label>
+                <textarea id="descripcion" required></textarea>
+              </div>
+  
+              <div class="form-group">
+                <label for="sku">SKU:</label>
+                <input type="text" id="sku" required>
+              </div>
+  
+              <div class="form-group">
+                <label for="stock">Stock Inicial:</label>
+                <input type="number" id="stock" required>
+              </div>
+  
+              <button type="submit">Agregar Producto</button>
+            </form>
+  
+            <p id="producto-mensaje" style="color: green; display: none;">Producto creado exitosamente</p>
+          </div>
+        `;
+  
+        document.getElementById("crear-producto-form").addEventListener("submit", async function (event) {
+          event.preventDefault();
+          await crearProducto();
+        });
+  
+        break;
+  
+      case "movimientos":
+        content.innerHTML = `
+          <h1>Movimiento de Inventario</h1>
+          <p>Gestión de movimientos de inventario.</p>
+          <button id="ver-entradas-btn" onclick="toggleListaProductos()">Entradas</button>
+          <button id="ver-salidas-btn" onclick="toggleFormularioProducto()">Salidas</button>
+        `;
+        break;
+  
+      case "reportes":
+        content.innerHTML = `
+          <h1>Reportes</h1>
+          <p>Aquí puedes generar reportes sobre inventario y ventas.</p>
+        `;
+        break;
+  
+      case "alertas":
+        content.innerHTML = `
+          <h1>Alertas</h1>
+          <p>Visualiza alertas de inventario y vencimientos.</p>
+        `;
+        break;
+  
+      default:
+        content.innerHTML = "<h1>Página no encontrada</h1>";
     }
   
     document.querySelectorAll(".sidebar ul li").forEach(li => li.classList.remove("active"));
     document.getElementById(`menu-${section}`).classList.add("active");
-}
+  }
 
 
 // Función para cerrar sesión
@@ -285,6 +288,31 @@ async function crearProducto() {
   }
 }
 
-
+// Función para mostrar/ocultar el formulario de creación de productos
+function toggleFormularioProducto() {
+    const formulario = document.getElementById("productos-form");
+    if (formulario.style.display === "none" || formulario.style.display === "") {
+      formulario.style.display = "block";
+    } else {
+      formulario.style.display = "none";
+    }
+  }
+  
+  // Función para mostrar/ocultar la lista de productos
+  function toggleListaProductos() {
+    const listaProductos = document.getElementById("productos-lista");
+    if (listaProductos.style.display === "none" || listaProductos.style.display === "") {
+      listaProductos.style.display = "block";
+      listarProductos(); // Cargar la lista de productos si está oculta
+    } else {
+      listaProductos.style.display = "none";
+    }
+  }
+  
+// Manejo del menú hamburguesa
+document.getElementById("menu-toggle").addEventListener("click", function () {
+    const sidebar = document.getElementById("sidebar");
+    sidebar.classList.toggle("active");
+  });
 
   

@@ -13,12 +13,16 @@ body {
 }
 
 .login-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   background: #fff;
-  padding: 20px;
+  padding: 30px;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 400px;
+  max-width: 600px;
 }
 
 .login-box h1 {
@@ -36,7 +40,7 @@ body {
 }
 
 .login-box button {
-  width: 100%;
+  width: 40%;
   padding: 10px;
   background-color: #007bff;
   color: #fff;
@@ -193,6 +197,23 @@ transition: background 0.3s, transform 0.2s;
   transform: scale(1.05);
 }
 
+/* Botón "Crear Producto" */
+#crear-producto-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.3s, transform 0.2s;
+}
+
+#crear-producto-btn:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
 /* Diseño del formulario */
 #productos-form {
   background: white;
@@ -238,4 +259,69 @@ transition: background 0.3s, transform 0.2s;
   background-color: #218838;
 }
 
+#menu-toggle {
+  display: none; /* Ocultar por defecto en pantallas grandes */
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 10px;
+}
 
+@media (max-width: 768px) {
+  #menu-toggle {
+    display: block;
+  }
+}
+
+/* Estilos generales responsivos */
+@media (max-width: 768px) {
+  .dashboard {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .content {
+    padding: 10px;
+  }
+
+  .login-box {
+    width: 90%;
+    max-width: none;
+  }
+
+  #productos-form {
+    width: 90%;
+    margin: 10px auto;
+  }
+
+  #menu-toggle {
+    display: block;
+    margin: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .sidebar {
+    display: none;
+  }
+
+  .sidebar.active {
+    display: block;
+  }
+}
+
+/* Estilos para el botón de menú hamburguesa */
+#menu-toggle {
+  display: none; /* Ocultar por defecto en pantallas grandes */
+}
