@@ -68,6 +68,47 @@
       <p id="producto-mensaje" style="color: green; display: none;">Producto creado exitosamente</p>
     </div>
   </div>
+
+    <!-- Dentro de la sección "Movimiento de Inventario" -->
+  <div id="movimientos-container" style="display: none;">
+    <h1>Movimiento de Inventario</h1>
+    <div class="card">
+      <h2>Registrar Entrada</h2>
+      <form id="entrada-form">
+        <div class="form-group">
+          <label for="producto-entrada">Producto:</label>
+          <select id="producto-entrada" required>
+            <!-- Los productos se cargarán dinámicamente desde el backend -->
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="cantidad-entrada">Cantidad:</label>
+          <input type="number" id="cantidad-entrada" required>
+        </div>
+        <button type="submit">Registrar Entrada</button>
+      </form>
+      <p id="entrada-mensaje" style="color: green; display: none;">Entrada registrada exitosamente</p>
+    </div>
+
+    <div class="card">
+      <h2>Registrar Salida</h2>
+      <form id="salida-form">
+        <div class="form-group">
+          <label for="producto-salida">Producto:</label>
+          <select id="producto-salida" required>
+            <!-- Los productos se cargarán dinámicamente desde el backend -->
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="cantidad-salida">Cantidad:</label>
+          <input type="number" id="cantidad-salida" required>
+        </div>
+        <button type="submit">Registrar Salida</button>
+      </form>
+      <p id="salida-mensaje" style="color: green; display: none;">Salida registrada exitosamente</p>
+    </div>
+  </div>
+
 </div>
 
 <script src="script.js"></script>

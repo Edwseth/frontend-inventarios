@@ -325,3 +325,47 @@ transition: background 0.3s, transform 0.2s;
 #menu-toggle {
   display: none; /* Ocultar por defecto en pantallas grandes */
 }
+
+/* Estilos para los formularios de entradas y salidas */
+#movimientos-container {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+#movimientos-container .card {
+  margin-bottom: 20px;
+}
+
+#movimientos-container .form-group {
+  margin-bottom: 15px;
+}
+
+#movimientos-container label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+#movimientos-container input,
+#movimientos-container select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+#movimientos-container button {
+  margin-top: 15px;
+  background-color: #28a745;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+}
+
+#movimientos-container button:hover {
+  background-color: #218838;
+}
