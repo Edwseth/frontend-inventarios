@@ -369,3 +369,18 @@ transition: background 0.3s, transform 0.2s;
 #movimientos-container button:hover {
   background-color: #218838;
 }
+
+fieldset {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+legend {
+  font-weight: bold;
+  color: #333;
+}
+
+.form-group {
+  margin-bottom: 10px;
+}
