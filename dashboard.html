@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - EdwTech Solutions</title>
+  <link rel="stylesheet" type="text/css" href="styles/style.css">
+</head>
+<body>
+  <!-- Dashboard -->
+  <div class="dashboard" id="dashboard-container">
+    <!-- Menú hamburguesa para móviles -->
+    <button id="menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false">&#9776;</button>
+
+    <nav class="sidebar" id="sidebar" aria-label="Menú principal">
+      <h2>Menú</h2>
+      <ul>
+        <li><button id="menu-inicio" role="button" aria-controls="inicio-container">Inicio</button></li>
+        <li><button id="menu-productos" role="button" aria-controls="productos-container">Gestión de Productos</button></li>
+        <li><button id="menu-movimientos" role="button" aria-controls="movimientos-container">Movimiento de Inventario</button></li>
+        <li><button id="menu-reportes" role="button" aria-controls="reportes-container">Reportes</button></li>
+        <li><button id="menu-alertas" role="button" aria-controls="alertas-container">Alertas</button></li>
+      </ul>
+      <button id="logout-button" type="button">Cerrar Sesión</button>
+    </nav>
+
+    <main id="main-content">
+      <!-- Sección Inicio -->
+      <section id="inicio-container" aria-labelledby="menu-inicio">
+        <h1>Dashboard de Inventarios</h1>
+        <div class="card">
+          <h2>Productos Críticos</h2>
+          <p id="critical-products-data">Cargando...</p>
+        </div>
+        <div class="card">
+          <h2>Próximos a Vencer</h2>
+          <p id="expiring-products-data">Cargando...</p>
+        </div>
+      </section>
+
+      <!-- Sección Productos -->
+      <section id="productos-container" aria-labelledby="menu-productos" style="display: none;">
+        <h2>Crear Producto</h2>
+        <div id="crear-producto-container"></div>
+        <form id="crear-producto-form">
+          <fieldset>
+            <legend>Información Básica</legend>
+            <div class="form-group">
+              <label for="nombre">Nombre:</label>
+              <input type="text" id="nombre" required>
+            </div>
+            <div class="form-group">
+              <label for="descripcion">Descripción:</label>
+              <textarea id="descripcion" required></textarea>
+            </div>
+            <div class="form-group">
+              <label for="sku">SKU:</label>
+              <input type="text" id="sku" required>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>Stock y Ubicación</legend>
+             <div class="form-group">
+              <label for="stock">Stock Inicial:</label>
+              <input type="number" id="stock" required>
+             </div>
+             <div class="form-group">
+              <label for="categoria">Categoría:</label>
+              <select id="categoria" required>
+                <option value="materia_prima">MATERIA PRIMA</option>
+                <option value="material_empaque">MATERIAL DE EMPAQUE</option>
+                <option value="material_rotulado">MATERIAL DE ROTULADO</option>
+                <option value="producto_terminado">PRODUCTO TERMINADO</option>
+              </select>
+              </div>
+              <div class="form-group">
+              <label for="subcategoria">Subcategoría:</label>
+              <select id="subcategoria" required>
+                <option value="solidos">SOLIDOS</option>
+                <option value="liquidos">LIQUIDOS</option>
+                <option value="semisolidos">SEMISOLIDOS</option>
+              </select>
+              </div>
+              <div class="form-group">
+                <label for="ubicacionAlmacen">Ubicación en Almacen:</label>
+                <input type="text" id="ubicacionAlmacen" required>
+              </div>
+          </fieldset>
+          <fieldset>
+            <legend>Recepción y Poveedor</legend>
+             <div class="form-group">
+                <label for="unidadMedida">Unidad de Medida:</label>
+                <input type="text" id="unidadMedida" required>
+             </div>
+             <div class="form-group">
+                <label for="costoUnitario">Costo Unitario:</label>
+                <input type="number" id="costoUnitario" step="0.01" required>
+             </div>
+             <div class="form-group">
+                <label for="fechaIngreso">Fecha de Ingreso:</label>
+                <input type="date" id="fechaIngreso" required>
+             </div>
+             <div class="form-group">
+                <label for="fechaVencimiento">Fecha de Vencimiento:</label>
+                <input type="date" id="fechaVencimiento" required>
+             </div>
+             <div class="form-group">
+                <label for="proveedor">Proveedor:</label>
+                <select id="proveedor" required>
+                <!-- Opciones cargadas dinámicamente desde el backend -->
+                </select>
+             </div>
+             <div class="form-group">
+                <label for="estado">Estado del Producto:</label>
+                <select id="estado" required>
+                  <option value="ACTIVO">Activo</option>
+                  <option value="DESCONTINUADO">Descontinuado</option>
+                  <option value="EN_TRANSITO">En Tránsito</option>
+                </select>
+                </div>
+          </fieldset>
+          <button type="submit">Agregar Producto</button>
+        </form>
+        <p id="producto-mensaje" style="color: green; display: none;">Producto creado exitosamente</p>
+      </section>
+
+        <!-- Sección Movimientos de Inventario -->
+    <section id="movimientos-container" aria-labelledby="menu-movimientos" style="display: none;">
+        <h2>Movimiento de Inventario</h2>
+    
+        <!-- Contenedor para registrar nuevas entradas -->
+        <div id="entrada-container">
+        <h3>Registrar Entrada</h3>
+        <form id="entrada-form">
+            <div class="form-group">
+            <label for="productoEntrada">Producto:</label>
+            <select id="productoEntrada" required></select>
+            </div>
+            <div class="form-group">
+            <label for="cantidadEntrada">Cantidad:</label>
+            <input type="number" id="cantidadEntrada" required>
+            </div>
+            <div class="form-group">
+            <label for="fechaEntrada">Fecha:</label>
+            <input type="date" id="fechaEntrada" required>
+            </div>
+            <button type="submit">Registrar Entrada</button>
+        </form>
+        </div>
+    
+        <!-- Contenedor para registrar nuevas salidas -->
+        <div id="salida-container">
+        <h3>Registrar Salida</h3>
+        <form id="salida-form">
+            <div class="form-group">
+            <label for="productoSalida">Producto:</label>
+            <select id="productoSalida" required></select>
+            </div>
+            <div class="form-group">
+            <label for="cantidadSalida">Cantidad:</label>
+            <input type="number" id="cantidadSalida" required>
+            </div>
+            <div class="form-group">
+            <label for="fechaSalida">Fecha:</label>
+            <input type="date" id="fechaSalida" required>
+            </div>
+            <button type="submit">Registrar Salida</button>
+        </form>
+        </div>
+    
+        <!-- Lista de movimientos recientes -->
+        <div id="movimientos-lista">
+        <h3>Historial de Movimientos</h3>
+        <ul id="movimientos-historial">
+            <li>Cargando movimientos...</li>
+        </ul>
+        </div>
+    </section>
+  
+      
+      <!-- Sección Reportes -->
+      <section id="reportes-container" aria-labelledby="menu-reportes" style="display: none;">
+        <h1>Reportes</h1>
+        <div class="card">
+          <h2>Seleccione un Reporte</h2>
+          <select id="tipo-reporte">
+            <option value="stock">Reporte de Stock y Disponibilidad</option>
+            <option value="movimientos">Reporte de Movimientos de Inventario</option>
+            <option value="rotacion">Reporte de Rotación de Productos</option>
+            <option value="inventario-fisico">Reporte de Inventario Físico</option>
+          </select>
+          <button onclick="cargarReporte()">Generar Reporte</button>
+        </div>
+
+        <div class="card" id="reporte-resultado">
+          <h2>Resultado del Reporte</h2>
+          <div id="reporte-contenido"></div>
+          <button onclick="exportarPDF()">Exportar a PDF</button>
+          <button onclick="exportarExcel()">Exportar a Excel</button>
+        </div>
+      </section>
+
+      <!-- Sección Alertas -->
+        <section id="alertas-container" aria-labelledby="menu-alertas" style="display: none;">
+            <h2>Alertas</h2>
+            <p>Aquí aparecerán las alertas del sistema.</p>
+        </section>
+
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script src="scripts/utils.js"></script>
+  <script src="scripts/auth.js"></script>
+  <script src="scripts/productos.js"></script>
+  <script src="scripts/movimientos.js"></script>
+  <script src="scripts/reportes.js"></script>
+  <script src="scripts/dashboard.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+</body>
+</html>

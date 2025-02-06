@@ -3,183 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Inventario - EdwTech Solutions</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Login - EdwTech Solutions</title>
+  <link rel="stylesheet" type="text/css" href="styles/style.css">
 </head>
 <body>
-
-<!-- Login Page -->
-<div class="container" id="login-container">
-  <div class="login-box">
-    <h1>EdwTech Solutions</h1>
-    <input type="text" id="username" placeholder="Usuario o correo electrónico">
-    <input type="password" id="password" placeholder="Contraseña">
-    <button type="button" onclick="handleLogin()">Iniciar Sesión</button>
-    <p id="error-message" style="color: red; display: none;">Usuario o contraseña incorrectos</p>
-  </div>
-</div>
-
-<!-- Dashboard -->
-<div class="dashboard" id="dashboard-container" style="display: none;">
-  <!-- Menú hamburguesa para móviles -->
-  <button id="menu-toggle" type="button">&#9776;</button>
-
-  <nav class="sidebar" id="sidebar">
-    <h2>Menú</h2>
-    <ul>
-      <li id="menu-inicio" role="button">Inicio</li>
-      <li id="menu-productos" role="button">Gestión de Productos</li>
-      <li id="menu-movimientos" role="button">Movimiento de Inventario</li>
-      <li id="menu-reportes" role="button">Reportes</li>
-      <li id="menu-alertas" role="button">Alertas</li>
-    </ul>
-    <button id="logout-button" type="button">Cerrar Sesión</button>
-  </nav>
-
-  <div class="content">
-    <h1>Dashboard de Inventarios</h1>
-    <div class="card">
-      <h2>Productos Críticos</h2>
-      <p id="critical-products-data">Cargando...</p>
-    </div>
-    <div class="card">
-      <h2>Próximos a Vencer</h2>
-      <p id="expiring-products-data">Cargando...</p>
-    </div>
-
-    <div id="productos-form" style="display: none;">
-      <h2>Crear Producto</h2>
-      <form id="crear-producto-form">
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" required>
-
-        <label for="descripcion">Descripción:</label>
-        <textarea id="descripcion" required></textarea>
-
-        <label for="sku">SKU:</label>
-        <input type="text" id="sku" required>
-
-        <label for="stock">Stock Inicial:</label>
-        <input type="number" id="stock" required>
-
-        <label for="categoria">Categoría:</label>
-        <select id="categoria" required>
-            <option value="materia_prima">Materia Prima</option>
-            <option value="material_empaque">Material de Empaque</option>
-            <option value="material_rotulado">Material de Rotulado</option>
-            <option value="producto_terminado">Producto Terminado</option>
-        </select>
-
-
-        <label for="subcategoria">Subcategoría:</label>
-        <input type="text" id="subcategoria" required>
-
-        <label for="ubicacionAlmacen">Ubicación en Almacén:</label>
-        <input type="text" id="ubicacionAlmacen" required>
-
-        <label for="unidadMedida">Unidad de Medida:</label>
-        <input type="text" id="unidadMedida" required>
-
-        <label for="costoUnitario">Costo Unitario:</label>
-        <input type="number" id="costoUnitario" step="0.01" required>
-
-        <label for="proveedor">Proveedor:</label>
-        <select id="proveedor" required>
-          <!-- Opciones cargadas dinámicamente desde el backend -->
-        </select>
-
-        <label for="fechaIngreso">Fecha de Ingreso:</label>
-        <input type="date" id="fechaIngreso" required>
-
-        <label for="fechaVencimiento">Fecha de Vencimiento:</label>
-        <input type="date" id="fechaVencimiento">
-
-        <label for="estado">Estado del Producto:</label>
-        <select id="estado" required>
-          <option value="ACTIVO">Activo</option>
-          <option value="DESCONTINUADO">Descontinuado</option>
-          <option value="EN_TRANSITO">En Tránsito</option>
-        </select>
-
-        <button type="submit">Agregar Producto</button>
+  <!-- Login Page -->
+  <div class="container" id="login-container">
+    <div class="login-box">
+      <h1>EdwTech Solutions</h1>
+      <form id="login-form">
+        <div class="form-group">
+          <label for="username">Usuario o correo electrónico:</label>
+          <input type="text" id="username" placeholder="Usuario o correo electrónico" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Contraseña:</label>
+          <input type="password" id="password" placeholder="Contraseña" required>
+        </div>
+        <button type="button" onclick="handleLogin()">Iniciar Sesión</button>
+        <p id="error-message" style="color: red; display: none;">Usuario o contraseña incorrectos</p>
       </form>
-
-      <p id="producto-mensaje" style="color: green; display: none;">Producto creado exitosamente</p>
     </div>
   </div>
 
-    <!-- Dentro de la sección "Movimiento de Inventario" -->
-  <div id="movimientos-container" style="display: none;">
-    <h1>Movimiento de Inventario</h1>
-    
-    <div class="card">
-      <h2>Registrar Entrada</h2>
-      <form id="entrada-form">
-        
-        <div class="form-group">
-          <label for="producto-entrada">Producto:</label>
-          <select id="producto-entrada" required>
-            <!-- Los productos se cargarán dinámicamente desde el backend -->
-          </select>
-        </div>
-  
-        <div class="form-group">
-          <label for="almacen-entrada">Almacén:</label>
-          <select id="almacen-entrada" required>
-            <!-- Los almacenes se cargarán dinámicamente -->
-          </select>
-        </div>
-  
-        <!-- 🔹 Agregar esta parte: SELECT para proveedores -->
-        <div class="form-group">
-          <label for="proveedor-entrada">Proveedor:</label>
-          <select id="proveedor-entrada" required>
-            <option value="">Seleccione un proveedor</option>
-          </select>
-        </div>
-  
-        <div class="form-group">
-          <label for="cantidad-entrada">Cantidad:</label>
-          <input type="number" id="cantidad-entrada" required>
-        </div>
-  
-        <button type="submit">Registrar Entrada</button>
-      </form>
-      <p id="entrada-mensaje" style="color: green; display: none;">Entrada registrada exitosamente</p>
-    </div>
-  </div>
-    
-
-
-    <!-- Dentro de la sección "Reportes" -->
-  <div id="reportes-container" style="display: none;">
-    <h1>Reportes</h1>
-    <div class="card">
-      <h2>Seleccione un Reporte</h2>
-      <select id="tipo-reporte">
-        <option value="stock">Reporte de Stock y Disponibilidad</option>
-        <option value="movimientos">Reporte de Movimientos de Inventario</option>
-        <option value="rotacion">Reporte de Rotación de Productos</option>
-        <option value="inventario-fisico">Reporte de Inventario Físico</option>
-      </select>
-      <button onclick="cargarReporte()">Generar Reporte</button>
-    </div>
-
-    <div class="card" id="reporte-resultado">
-      <h2>Resultado del Reporte</h2>
-      <div id="reporte-contenido">
-        <!-- Aquí se mostrará el contenido del reporte -->
-      </div>
-      <button onclick="exportarPDF()">Exportar a PDF</button>
-      <button onclick="exportarExcel()">Exportar a Excel</button>
-    </div>
-  </div>
-
-</div>
-
-<script src="script.js"></script>
+  <!-- Scripts -->
+  <script src="scripts/utils.js"></script>
+  <script src="scripts/auth.js"></script>
 </body>
 </html>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>

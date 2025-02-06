@@ -384,3 +384,11 @@ legend {
 .form-group {
   margin-bottom: 10px;
 }
+.content {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.content.visible {
+  opacity: 1;
+}
