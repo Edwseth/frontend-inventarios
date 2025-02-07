@@ -1,99 +1,128 @@
 // scripts/productos.js
-class ProductoForm {
-    constructor(mode = "create", productoId = null) {
-        this.mode = mode; // "create" o "edit"
-        this.productoId = productoId; // Solo para modo "edit"
-        this.form = this.createForm();
-    }
+document.addEventListener("DOMContentLoaded", () => {
+  const btnListar = document.getElementById("btn-listar-productos");
+  const btnCrear = document.getElementById("btn-crear-producto");
+  const contenidoProductos = document.getElementById("contenido-productos");
 
-    createForm() {
-        const form = document.createElement("form");
-        form.id = `producto-form-${this.mode}`;
-        form.innerHTML = `
-        <div class="form-group">
-          <label for="nombre">Nombre:</label>
-          <input type="text" id="nombre" required>
-        </div>
-        <div class="form-group">
-          <label for="descripcion">Descripción:</label>
-          <textarea id="descripcion" required></textarea>
-        </div>
-        <div class="form-group">
-          <label for="sku">SKU:</label>
-          <input type="text" id="sku" required>
-        </div>
-        <div class="form-group">
-          <label for="stock">Stock Inicial:</label>
-          <input type="number" id="stock" required>
-        </div>
-        <div class="form-group">
-          <label for="categoria">Categoría:</label>
-          <select id="categoria" required></select>
-        </div>
-        <div class="form-group">
-          <label for="proveedor">Proveedor:</label>
-          <select id="proveedor" required></select>
-        </div>
-        <button type="submit">${this.mode === "create" ? "Crear" : "Actualizar"} Producto</button>
+  btnListar.addEventListener("click", async () => {
+      const productos = await fetchData("/api/productos");
+      mostrarListaProductos(productos);
+  });
+
+  btnCrear.addEventListener("click", () => {
+      mostrarFormularioCrear();
+  });
+
+  function mostrarListaProductos(productos) {
+      contenidoProductos.innerHTML = productos.length ? `
+          <h3>Lista de Productos</h3>
+          <table border="1">
+              <thead>
+                  <tr>
+                      <th>Nombre</th>
+                      <th>SKU</th>
+                      <th>Categoría</th>
+                      <th>Proveedor</th>
+                      <th>Acciones</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  ${productos.map(producto => `
+                      <tr>
+                          <td>${producto?.nombre || "Sin nombre"}</td>
+                          <td>${producto?.sku || "N/A"}</td>
+                          <td>${producto?.categoria || "N/A"}</td>
+                          <td>${producto?.proveedor?.nombre || "N/A"}</td>
+                          <td>
+                              <button class="editar-producto" data-id="${producto.id}">Editar</button>
+                              <button class="eliminar-producto" data-id="${producto.id}">Eliminar</button>
+                          </td>
+                      </tr>
+                  `).join("")}
+              </tbody>
+          </table>
+      ` : "<p>No hay productos disponibles.</p>";
+  }
+
+  function mostrarFormularioCrear() {
+      contenidoProductos.innerHTML = `
+          <h3>Crear Producto</h3>
+          <form id="producto-form">
+              <label>Nombre: <input type="text" id="nombre" required></label>
+              <label>Comentarios: <textarea id="comentarios"></textarea></label>
+              <label>SKU: <input type="text" id="sku" required></label>
+              <label>Lote Proveedor: <input type="text" id="loteProveedor"></label>
+              <label>Lote Interno: <input type="text" id="loteInterno"></label>
+              <label>Ubicación en Almacén: <input type="text" id="ubicacionAlmacen"></label>
+              <label>Unidad de Medida: <input type="text" id="unidadMedida"></label>
+              <label>Costo Promedio: <input type="number" id="costoPromedio" step="0.01" required></label>
+              <label>Fecha de Ingreso: <input type="date" id="fechaIngreso"></label>
+              <label>Fecha de Vencimiento: <input type="date" id="fechaVencimiento"></label>
+              <label>Estado: 
+                  <select id="estado">
+                      <option value="ACTIVO">Activo</option>
+                      <option value="DESCONTINUADO">Descontinuado</option>
+                      <option value="EN_TRANSITO">En Tránsito</option>
+                  </select>
+              </label>
+              <label>Categoría: <select id="categoria" required></select></label>
+              <label>Subcategoría: <input type="text" id="subcategoria"></label>
+              <label>Proveedor: <select id="proveedor" required></select></label>
+              <button type="submit">Crear Producto</button>
+          </form>
       `;
-      return form;
-    }
-  
-    async loadData() {
-      const [categorias, proveedores] = await Promise.all([
-          fetchData("/api/categorias"),
-          fetchData("/api/proveedores"),
-      ]);
-
-      const categoriaSelect = this.form.querySelector("#categoria");
-      categoriaSelect.innerHTML = categorias.map(c => `<option value="${c.id}">${c.nombre}</option>`).join("");
-
-      const proveedorSelect = this.form.querySelector("#proveedor");
-      proveedorSelect.innerHTML = proveedores.map(p => `<option value="${p.id}">${p.nombre}</option>`).join("");
-
-      if (this.mode === "edit" && this.productoId) {
-          const producto = await fetchData(`/api/productos/${this.productoId}`);
-          this.fillForm(producto);
-      }
-  }
-
-  fillForm(producto) {
-      this.form.querySelector("#nombre").value = producto.nombre;
-      this.form.querySelector("#descripcion").value = producto.descripcion;
-      this.form.querySelector("#sku").value = producto.sku;
-      this.form.querySelector("#stock").value = producto.stock;
-      this.form.querySelector("#categoria").value = producto.categoriaId;
-      this.form.querySelector("#proveedor").value = producto.proveedorId;
-  }
-
-  onSubmit(callback) {
-      this.form.addEventListener("submit", async (event) => {
+      loadFormData();
+      document.getElementById("producto-form").addEventListener("submit", async (event) => {
           event.preventDefault();
           const data = {
-              nombre: this.form.querySelector("#nombre").value,
-              descripcion: this.form.querySelector("#descripcion").value,
-              sku: this.form.querySelector("#sku").value,
-              stock: this.form.querySelector("#stock").value,
-              categoriaId: this.form.querySelector("#categoria").value,
-              proveedorId: this.form.querySelector("#proveedor").value,
+              nombre: document.getElementById("nombre").value,
+              comentarios: document.getElementById("comentarios").value,
+              sku: document.getElementById("sku").value,
+              loteProveedor: document.getElementById("loteProveedor").value,
+              loteInterno: document.getElementById("loteInterno").value,
+              ubicacionAlmacen: document.getElementById("ubicacionAlmacen").value,
+              unidadMedida: document.getElementById("unidadMedida").value,
+              costoPromedio: document.getElementById("costoPromedio").value,
+              fechaIngreso: document.getElementById("fechaIngreso").value,
+              fechaVencimiento: document.getElementById("fechaVencimiento").value,
+              estado: document.getElementById("estado").value,
+              categoria: document.getElementById("categoria").value,
+              subcategoria: document.getElementById("subcategoria").value,
+              proveedorId: document.getElementById("proveedor").value
           };
-          await callback(data);
+          try {
+              await fetchData("/api/productos", "POST", data);
+              alert("Producto creado exitosamente");
+              btnListar.click();
+          } catch (error) {
+              console.error("Error al crear producto:", error);
+              alert("Error al crear el producto.");
+          }
       });
   }
+
+  async function loadFormData() {
+    try {
+        const [categorias, proveedores] = await Promise.all([
+            fetchData("/api/categorias"), // 🔹 Endpoint correcto para categorías
+            fetchData("/api/proveedores")
+        ]);
+
+        console.log("Categorías cargadas:", categorias);
+        console.log("Proveedores cargados:", proveedores);
+
+        document.getElementById("categoria").innerHTML = categorias
+            .map(c => `<option value="${c}">${c.replace("_", " ")}</option>`)
+            .join("");
+
+        document.getElementById("proveedor").innerHTML = proveedores
+            .map(p => `<option value="${p.id}">${p.nombre}</option>`)
+            .join("");
+
+    } catch (error) {
+        console.error("Error al cargar datos:", error);
+    }
 }
 
-// Uso del formulario reutilizable
-const crearProductoForm = new ProductoForm("create");
-document.getElementById("crear-producto-container").appendChild(crearProductoForm.form);
-crearProductoForm.loadData();
-
-crearProductoForm.onSubmit(async (data) => {
-  try {
-      await fetchData("/api/productos", "POST", data);
-      alert("Producto creado exitosamente");
-      loadProductList(); // Recargar la lista de productos
-  } catch (error) {
-      console.error("Error al crear producto:", error);
-      alert("Error al crear el producto. Intente nuevamente.");
-  }
 });
+

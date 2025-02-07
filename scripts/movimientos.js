@@ -1,67 +1,51 @@
 // scripts/movimientos.js
-class MovimientoForm {
-  constructor(type) {
-    this.type = type; // "entrada" o "salida"
-    this.form = this.createForm();
-  }
 
-  createForm() {
-    const form = document.createElement("form");
-    form.id = `movimiento-${this.type}-form`;
-    form.innerHTML = `
-      <div class="form-group">
-        <label for="producto-${this.type}">Producto:</label>
-        <select id="producto-${this.type}" required></select>
-      </div>
-      <div class="form-group">
-        <label for="cantidad-${this.type}">Cantidad:</label>
-        <input type="number" id="cantidad-${this.type}" required>
-      </div>
-      <div class="form-group">
-        <label for="fecha-${this.type}">Fecha:</label>
-        <input type="date" id="fecha-${this.type}" required>
-      </div>
-      <button type="submit">Registrar ${this.type}</button>
-    `;
-    return form;
+class MovimientoForm {
+  constructor() {
+      this.form = document.getElementById("movimiento-form");
+      this.tipoMovimiento = document.getElementById("tipoMovimiento");
+      this.productoSelect = document.getElementById("productoMovimiento");
+      this.cantidadInput = document.getElementById("cantidadMovimiento");
+      this.fechaInput = document.getElementById("fechaMovimiento");
+
+      this.loadProducts();
+      this.handleSubmit();
   }
 
   async loadProducts() {
-    const productos = await fetchData("/api/productos");
-    const select = this.form.querySelector(`#producto-${this.type}`);
-    select.innerHTML = productos.map(p => `<option value="${p.id}">${p.nombre}</option>`).join("");
+      try {
+          const productos = await fetchData("/api/productos");
+          this.productoSelect.innerHTML = productos.map(p => 
+              `<option value="${p.id}">${p.nombre}</option>`).join("");
+      } catch (error) {
+          console.error("Error cargando productos:", error);
+      }
   }
 
-  onSubmit(callback) {
-    this.form.addEventListener("submit", async (event) => {
-      event.preventDefault();
-      const data = {
-        productoId: this.form.querySelector(`#producto-${this.type}`).value,
-        cantidad: this.form.querySelector(`#cantidad-${this.type}`).value,
-        fecha: this.form.querySelector(`#fecha-${this.type}`).value,
-        tipo: this.type,
-      };
-      await callback(data);
-    });
+  handleSubmit() {
+      this.form.addEventListener("submit", async (event) => {
+          event.preventDefault();
+
+          const data = {
+              productoId: this.productoSelect.value,
+              cantidad: this.cantidadInput.value,
+              fecha: this.fechaInput.value,
+              tipo: this.tipoMovimiento.value, // "entrada" o "salida"
+          };
+
+          try {
+              await fetchData("/api/movimientos", "POST", data);
+              alert(`${data.tipo.charAt(0).toUpperCase() + data.tipo.slice(1)} registrada exitosamente`);
+              this.form.reset(); // Limpiar formulario después de enviar
+          } catch (error) {
+              console.error("Error registrando movimiento:", error);
+              alert("Error al registrar el movimiento. Intente nuevamente.");
+          }
+      });
   }
 }
 
-// Uso del formulario reutilizable
-const entradaForm = new MovimientoForm("entrada");
-const salidaForm = new MovimientoForm("salida");
-
-document.getElementById("entrada-container").appendChild(entradaForm.form);
-document.getElementById("salida-container").appendChild(salidaForm.form);
-
-entradaForm.loadProducts();
-salidaForm.loadProducts();
-
-entradaForm.onSubmit(async (data) => {
-  await fetchData("/api/movimientos", "POST", data);
-  alert("Entrada registrada exitosamente");
-});
-
-salidaForm.onSubmit(async (data) => {
-  await fetchData("/api/movimientos", "POST", data);
-  alert("Salida registrada exitosamente");
+// ✅ Inicializar el formulario cuando la página cargue
+document.addEventListener("DOMContentLoaded", () => {
+  new MovimientoForm();
 });

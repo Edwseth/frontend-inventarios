@@ -38,10 +38,19 @@
         </div>
       </section>
 
-      <!-- Sección Productos -->
+      <!-- Sección Gestión de Productos -->
       <section id="productos-container" aria-labelledby="menu-productos" style="display: none;">
-        <h2>Crear Producto</h2>
-        <div id="crear-producto-container"></div>
+        <h2>Gestión de Productos</h2>
+
+              <!-- Botones de acción -->
+          <div class="botones-productos">
+            <button id="btn-listar-productos">Listar Productos</button>
+            <button id="btn-crear-producto">Crear Producto</button>
+        </div>
+
+        <!-- Contenedor donde se mostrará la tabla de productos o el formulario -->
+        <div id="contenido-productos"></div>
+        <!--<div id="crear-producto-container"></div>
         <form id="crear-producto-form">
           <fieldset>
             <legend>Información Básica</legend>
@@ -107,7 +116,7 @@
              <div class="form-group">
                 <label for="proveedor">Proveedor:</label>
                 <select id="proveedor" required>
-                <!-- Opciones cargadas dinámicamente desde el backend -->
+                <! Opciones cargadas dinámicamente desde el backend ->
                 </select>
              </div>
              <div class="form-group">
@@ -121,61 +130,49 @@
           </fieldset>
           <button type="submit">Agregar Producto</button>
         </form>
-        <p id="producto-mensaje" style="color: green; display: none;">Producto creado exitosamente</p>
+        <p id="producto-mensaje" style="color: green; display: none;">Producto creado exitosamente</p>-->
       </section>
 
-        <!-- Sección Movimientos de Inventario -->
-    <section id="movimientos-container" aria-labelledby="menu-movimientos" style="display: none;">
+       <!-- Sección Movimientos de Inventario -->
+      <section id="movimientos-container" aria-labelledby="menu-movimientos" style="display: none;">
         <h2>Movimiento de Inventario</h2>
-    
-        <!-- Contenedor para registrar nuevas entradas -->
-        <div id="entrada-container">
-        <h3>Registrar Entrada</h3>
-        <form id="entrada-form">
-            <div class="form-group">
-            <label for="productoEntrada">Producto:</label>
-            <select id="productoEntrada" required></select>
-            </div>
-            <div class="form-group">
-            <label for="cantidadEntrada">Cantidad:</label>
-            <input type="number" id="cantidadEntrada" required>
-            </div>
-            <div class="form-group">
-            <label for="fechaEntrada">Fecha:</label>
-            <input type="date" id="fechaEntrada" required>
-            </div>
-            <button type="submit">Registrar Entrada</button>
-        </form>
+
+        <!-- Formulario Unificado para Entradas y Salidas -->
+        <div id="movimiento-form-container">
+            <h3>Registrar Movimiento</h3>
+            <form id="movimiento-form">
+                <div class="form-group">
+                    <label for="tipoMovimiento">Tipo de Movimiento:</label>
+                    <select id="tipoMovimiento" required>
+                        <option value="entrada">Entrada</option>
+                        <option value="salida">Salida</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="productoMovimiento">Producto:</label>
+                    <select id="productoMovimiento" required></select>
+                </div>
+                <div class="form-group">
+                    <label for="cantidadMovimiento">Cantidad:</label>
+                    <input type="number" id="cantidadMovimiento" required>
+                </div>
+                <div class="form-group">
+                    <label for="fechaMovimiento">Fecha:</label>
+                    <input type="date" id="fechaMovimiento" required>
+                </div>
+                <button type="submit">Registrar Movimiento</button>
+            </form>
         </div>
-    
-        <!-- Contenedor para registrar nuevas salidas -->
-        <div id="salida-container">
-        <h3>Registrar Salida</h3>
-        <form id="salida-form">
-            <div class="form-group">
-            <label for="productoSalida">Producto:</label>
-            <select id="productoSalida" required></select>
-            </div>
-            <div class="form-group">
-            <label for="cantidadSalida">Cantidad:</label>
-            <input type="number" id="cantidadSalida" required>
-            </div>
-            <div class="form-group">
-            <label for="fechaSalida">Fecha:</label>
-            <input type="date" id="fechaSalida" required>
-            </div>
-            <button type="submit">Registrar Salida</button>
-        </form>
-        </div>
-    
+
         <!-- Lista de movimientos recientes -->
         <div id="movimientos-lista">
-        <h3>Historial de Movimientos</h3>
-        <ul id="movimientos-historial">
-            <li>Cargando movimientos...</li>
-        </ul>
+            <h3>Historial de Movimientos</h3>
+            <ul id="movimientos-historial">
+                <li>Cargando movimientos...</li>
+            </ul>
         </div>
-    </section>
+      </section>
+
   
       
       <!-- Sección Reportes -->
