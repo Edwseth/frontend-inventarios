@@ -59,14 +59,22 @@ document.addEventListener("DOMContentLoaded", () => {
               <label>Fecha de Ingreso: <input type="date" id="fechaIngreso"></label>
               <label>Fecha de Vencimiento: <input type="date" id="fechaVencimiento"></label>
               <label>Estado: 
-                  <select id="estado">
-                      <option value="ACTIVO">Activo</option>
-                      <option value="DESCONTINUADO">Descontinuado</option>
-                      <option value="EN_TRANSITO">En Tránsito</option>
+                  <select id="estado"required>
+                      <option value="Activo">Seleccione una opción</option>
+                      <option value="Activo">ACTIVO</option>
+                      <option value="Descontinuado">DESCONTINUADO</option>
+                      <option value="En Tránsito">EN_TRANSITO</option>
                   </select>
               </label>
               <label>Categoría: <select id="categoria" required></select></label>
-              <label>Subcategoría: <input type="text" id="subcategoria"></label>
+              <label>Subcategoría:
+                  <select id="subcategoria"required>
+                       <option value="Activo">Seleccione una opción</option>
+                       <option value="solidos">SOLIDOS</option>
+                       <option value="liquidos">LIQUIDOS</option>
+                       <option value="semisolidos">SEMISOLIDOS</option>
+                  </select>
+              </label>
               <label>Proveedor: <select id="proveedor" required></select></label>
               <button type="submit">Crear Producto</button>
           </form>
@@ -104,20 +112,20 @@ document.addEventListener("DOMContentLoaded", () => {
   async function loadFormData() {
     try {
         const [categorias, proveedores] = await Promise.all([
-            fetchData("/api/categorias"), // 🔹 Endpoint correcto para categorías
+            fetchData("/api/categorias"), 
             fetchData("/api/proveedores")
         ]);
 
         console.log("Categorías cargadas:", categorias);
         console.log("Proveedores cargados:", proveedores);
 
-        document.getElementById("categoria").innerHTML = categorias
-            .map(c => `<option value="${c}">${c.replace("_", " ")}</option>`)
-            .join("");
+        document.getElementById("categoria").innerHTML = 
+            `<option value="">Seleccione una opción</option>` + 
+            categorias.map(c => `<option value="${c}">${c.replace("_", " ")}</option>`).join("");
 
-        document.getElementById("proveedor").innerHTML = proveedores
-            .map(p => `<option value="${p.id}">${p.nombre}</option>`)
-            .join("");
+        document.getElementById("proveedor").innerHTML = 
+            `<option value="">Seleccione una opción</option>` + 
+            proveedores.map(p => `<option value="${p.id}">${p.proveedor}</option>`).join("");
 
     } catch (error) {
         console.error("Error al cargar datos:", error);

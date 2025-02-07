@@ -1,4 +1,6 @@
 // scripts/auth.js
+
+
 async function handleLogin() {
     const username = document.getElementById('username').value.trim();
     const password = document.getElementById('password').value.trim();
